@@ -9,7 +9,7 @@ class RationalNumber
 private:
 	int numerator;
 	int denominator;
-	void simplify();
+	int simplify(int, int);
 public:
 	RationalNumber();
 	RationalNumber(const RationalNumber&);

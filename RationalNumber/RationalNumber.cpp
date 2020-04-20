@@ -1,27 +1,21 @@
 #include "RationalNumber.h"
 
-void RationalNumber::simplify()
+int RationalNumber::simplify(int a, int b)
 {
-	int restant = denominator%numerator;
-	if (restant == 0)
+	int temp = 0;
+	while (a != 0)
 	{
-		int restant = numerator;
+		temp = a;
+		a = b % a;
+		b = temp;
 	}
-	while (restant != 0)
-	{
-		restant = numerator;
-		numerator = denominator % numerator;
-		denominator = restant;
-	}
-	numerator = numerator / restant;
-	denominator = denominator / restant;
+	return b;
 }
 
 RationalNumber::RationalNumber()
 {
-	numerator = 1;
+	numerator = 0;
 	denominator = 1;
-	simplify();
 }
 
 RationalNumber::RationalNumber(const RationalNumber& right)
@@ -62,7 +56,6 @@ void RationalNumber::operator=(const RationalNumber& right)
 {
 	numerator = right.getNumerator();
 	denominator = right.getDenominator();
-	simplify();
 }
 
 RationalNumber RationalNumber::operator+(const RationalNumber& right)
@@ -72,13 +65,11 @@ RationalNumber RationalNumber::operator+(const RationalNumber& right)
 	{
 		temp.setNumerator(numerator + right.getNumerator());
 		temp.setDenominator(denominator);
-		temp.simplify();
 	}
 	else
 	{
 		temp.setNumerator(denominator * right.getNumerator() + right.getDenominator() * numerator);
 		temp.setDenominator(getDenominator() * right.getDenominator());
-		temp.simplify();
 	}
 	return temp;
 }
@@ -90,13 +81,11 @@ RationalNumber RationalNumber::operator-(const RationalNumber& right)
 	{
 		temp.setNumerator(numerator - right.getNumerator());
 		temp.setDenominator(denominator);
-		temp.simplify();
 	}
 	else
 	{
 		temp.setNumerator(denominator * right.getNumerator() - right.getDenominator() * numerator);
 		temp.setDenominator(denominator * right.getDenominator());
-		temp.simplify();
 	}
 	return temp;
 }
@@ -107,8 +96,6 @@ RationalNumber RationalNumber::operator*(const RationalNumber& right)
 	
 		temp.setNumerator(numerator * right.getNumerator());
 		temp.setDenominator(denominator* right.getDenominator());
-		temp.simplify();
-	
 	return temp;
 }
 
@@ -117,7 +104,6 @@ RationalNumber RationalNumber::operator/(const RationalNumber& right)
 	RationalNumber temp;
 	temp.setNumerator(numerator * right.getDenominator());
 	temp.setDenominator(denominator * right.getNumerator());
-	temp.simplify();
 	return temp;
 }
 
@@ -131,10 +117,10 @@ bool RationalNumber::operator<(const RationalNumber& right)
 
 bool RationalNumber::operator>(const RationalNumber& right)
 {
-	if (numerator * right.getDenominator() > right.getNumerator() * denominator)
-		return true;
+	if (numerator * right.denominator > right.numerator * denominator)
+		return "true";
 	else
-		return false;
+		return "false";
 }
 
 bool RationalNumber::operator==(const RationalNumber& right)
@@ -156,7 +142,6 @@ bool RationalNumber::operator!=(const RationalNumber& right)
 RationalNumber RationalNumber::operator++()
 {
 	numerator = numerator + denominator;
-	simplify();
 	return *this;
 }
 
@@ -165,14 +150,12 @@ RationalNumber RationalNumber::operator++(int)
 	RationalNumber temp;
 	temp = *this;
 	numerator = numerator + denominator;
-	simplify();
 	return temp;
 }
 
 RationalNumber RationalNumber::operator--()
 {
 	numerator = numerator - denominator;
-	simplify();
 	return *this;
 }
 
@@ -181,7 +164,6 @@ RationalNumber RationalNumber::operator--(int)
 	RationalNumber temp;
 	temp = *this;
 	numerator = numerator - denominator;
-	simplify();
 	return temp;
 }
 
@@ -191,12 +173,31 @@ ostream& operator<<(ostream& strm, const RationalNumber& right)
 	return strm;
 }
 
-istream& operator>>(istream& strm, RationalNumber& right)
+istream& operator>>(istream& strm, RationalNumber& obj)
 {
 	cout << "Numerator: ";
-	strm >> right.numerator;
-	cout << "Please enter the denominator: ";
-	strm >> right.denominator;
-	right.simplify();
-	return strm;
+	strm >> obj.numerator;
+
+	// Prompt the user for the inches. 
+	cout << "Denominator: ";
+	strm >> obj.denominator;
+	if (obj.denominator != 0)
+	{
+		// Normalize the values. 
+		int temp = obj.numerator;
+		obj.numerator = obj.numerator / obj.simplify(obj.numerator, obj.denominator);
+		obj.denominator = obj.denominator / obj.simplify(obj.denominator, temp);
+		return strm;
+	}
+	else
+	{
+		while (obj.denominator == 0)
+		{
+			cout << "Invalid denominator. Try again." << endl;
+			// Prompt the user for the inches. 
+			cout << "Denominator: ";
+			strm >> obj.denominator;
+		}
+		return strm;
+	}
 }

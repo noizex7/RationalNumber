@@ -14,7 +14,7 @@ int main()
 }
 void displayMenu()
 {
-	cout << "This is the rational number class" << endl
+	cout << endl << "This is the rational number class" << endl
 		<< "Choose what you want to do with rational numbers:" << endl
 		<< "(1) Simplify a rational number" << endl
 		<< "(2) Sum two rational numbers" << endl
@@ -39,7 +39,7 @@ void services(int choice)
 	{
 	case 1:
 		cin >> rN1;
-		cout << rN1;
+		cout << rN1 << endl;
 		break;
 	
 	case 2:
@@ -52,43 +52,55 @@ void services(int choice)
 		cout << "Please enter the two rational numbers" << endl;
 		cin >> rN1;
 		cin >> rN2;
-		cout << "The difference of the two rational numbers is: " << rN1.operator-(rN2) << endl;
+			cout << "The difference of the two rational numbers is: " << rN1 - rN2 << endl;
 		break;
 	case 4:
 		cout << "Please enter the two rational numbers" << endl;
 		cin >> rN1;
 		cin >> rN2;
-		cout << "The multiplication of the two rational numbers is: " << rN1.operator*(rN2) << endl;
+		cout << "The multiplication of the two rational numbers is: " << rN1*rN2 << endl;
 		break;
 	case 5:
 		cout << "Please enter the two rational numbers" << endl;
 		cin >> rN1;
 		cin >> rN2;
-		cout << "The division of the two rational numbers is: " << rN1.operator/(rN2) << endl;
+		cout << "The division of the two rational numbers is: " << rN1/rN2 << endl;
 		break;
 	case 6:
 		cout << "Please enter the two rational numbers" << endl;
 		cin >> rN1;
 		cin >> rN2;
-		cout << "The comparison of the two rational number is " << rN1.operator<(rN2) << endl;
+		if(1==rN1.operator<(rN2))
+			cout << "The comparison of the two rational number is true " << endl;
+		else
+			cout << "The comparison of the two rational number is false " << endl;
 		break;
 	case 7:
 		cout << "Please enter the two rational numbers" << endl;
 		cin >> rN1;
 		cin >> rN2;
-		cout << "The comparison of the two rational number is " << rN1.operator>(rN2) << endl;
+		if (1 == rN1.operator>(rN2))
+			cout << "The comparison of the two rational number is true " << endl;
+		else
+			cout << "The comparison of the two rational number is false " << endl;
 		break;
 	case 8:
 		cout << "Please enter the two rational numbers" << endl;
 		cin >> rN1;
 		cin >> rN2;
-		cout << "The comparison of the two rational number is " << rN1.operator==(rN2) << endl;
+		if (1 == rN1.operator==(rN2))
+			cout << "The comparison of the two rational number is true " << endl;
+		else
+			cout << "The comparison of the two rational number is false " << endl;
 		break;
 	case 9:
 		cout << "Please enter the two rational numbers" << endl;
 		cin >> rN1;
 		cin >> rN2;
-		cout << "The comparison of the two rational number is " << rN1.operator!=(rN2) << endl;
+		if (1 == rN1.operator!=(rN2))
+			cout << "The comparison of the two rational number is true " << endl;
+		else
+			cout << "The comparison of the two rational number is false " << endl;
 		break;
 	case 10:
 		cin >> rN1;
