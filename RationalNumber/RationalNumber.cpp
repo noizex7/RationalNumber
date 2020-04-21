@@ -2,7 +2,7 @@
 
 int RationalNumber::simplify(int a, int b)
 {
-	int temp = 0;
+	int temp;
 	while (a != 0)
 	{
 		temp = a;
@@ -70,6 +70,9 @@ RationalNumber RationalNumber::operator+(const RationalNumber& right)
 	{
 		temp.setNumerator(denominator * right.getNumerator() + right.getDenominator() * numerator);
 		temp.setDenominator(getDenominator() * right.getDenominator());
+		int mcd = temp.simplify(temp.numerator, temp.denominator);
+		temp.setNumerator(temp.numerator / mcd);
+		temp.setDenominator(temp.denominator / mcd);
 	}
 	return temp;
 }
@@ -86,6 +89,9 @@ RationalNumber RationalNumber::operator-(const RationalNumber& right)
 	{
 		temp.setNumerator(denominator * right.getNumerator() - right.getDenominator() * numerator);
 		temp.setDenominator(denominator * right.getDenominator());
+		int mcd = temp.simplify(temp.numerator, temp.denominator);
+		temp.setNumerator(temp.numerator / mcd);
+		temp.setDenominator(temp.denominator / mcd);
 	}
 	return temp;
 }
@@ -96,6 +102,9 @@ RationalNumber RationalNumber::operator*(const RationalNumber& right)
 	
 		temp.setNumerator(numerator * right.getNumerator());
 		temp.setDenominator(denominator* right.getDenominator());
+		int mcd = temp.simplify(temp.numerator, temp.denominator);
+		temp.setNumerator(temp.numerator / mcd);
+		temp.setDenominator(temp.denominator / mcd);
 	return temp;
 }
 
@@ -104,6 +113,9 @@ RationalNumber RationalNumber::operator/(const RationalNumber& right)
 	RationalNumber temp;
 	temp.setNumerator(numerator * right.getDenominator());
 	temp.setDenominator(denominator * right.getNumerator());
+	int mcd = temp.simplify(temp.numerator, temp.denominator);
+	temp.setNumerator(temp.numerator / mcd);
+	temp.setDenominator(temp.denominator / mcd);
 	return temp;
 }
 
@@ -118,9 +130,9 @@ bool RationalNumber::operator<(const RationalNumber& right)
 bool RationalNumber::operator>(const RationalNumber& right)
 {
 	if (numerator * right.denominator > right.numerator * denominator)
-		return "true";
+		return true;
 	else
-		return "false";
+		return false;
 }
 
 bool RationalNumber::operator==(const RationalNumber& right)
@@ -184,9 +196,9 @@ istream& operator>>(istream& strm, RationalNumber& obj)
 	if (obj.denominator != 0)
 	{
 		// Normalize the values. 
-		int temp = obj.numerator;
-		obj.numerator = obj.numerator / obj.simplify(obj.numerator, obj.denominator);
-		obj.denominator = obj.denominator / obj.simplify(obj.denominator, temp);
+		int temp = obj.simplify(obj.numerator, obj.denominator);
+		obj.numerator = (obj.numerator / temp);
+		obj.denominator = (obj.denominator / temp);
 		return strm;
 	}
 	else
